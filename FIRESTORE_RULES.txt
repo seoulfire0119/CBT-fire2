@@ -1,0 +1,80 @@
+==================================================
+  Firestore 보안 규칙 설정 방법
+==================================================
+
+1. Firebase Console 접속
+   https://console.firebase.google.com/
+
+2. 프로젝트 선택
+
+3. 좌측 메뉴에서 "Firestore Database" 클릭
+
+4. 상단 탭에서 "규칙(Rules)" 클릭
+
+5. 아래 규칙을 복사해서 붙여넣기:
+
+==================================================
+규칙 복사 시작 (아래 내용 전체 복사)
+==================================================
+
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 사용자 문서
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth.uid == userId;
+    }
+
+    // 시험 결과
+    match /exam_results/{resultId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null;
+      allow update, delete: if request.auth != null &&
+                               get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+
+    // 공지사항 - 모든 로그인 사용자 읽기 가능, 관리자만 쓰기 가능
+    match /notifications/{notifId} {
+      allow read: if request.auth != null;
+      allow write: if request.auth != null &&
+                     get(/databases/$(database)/documents/users/$(request.auth.uid)).data.isAdmin == true;
+    }
+  }
+}
+
+==================================================
+규칙 복사 끝
+==================================================
+
+6. "게시(Publish)" 버튼 클릭
+
+7. 완료!
+
+==================================================
+  관리자 권한 설정 방법
+==================================================
+
+1. Firebase Console > Firestore Database
+
+2. "데이터(Data)" 탭 클릭
+
+3. users 컬렉션 선택
+
+4. 관리자로 만들 사용자 문서 클릭
+
+5. "필드 추가" 버튼 클릭
+   - 필드 이름: isAdmin
+   - 유형: boolean
+   - 값: true
+
+6. 저장
+
+==================================================
+  테스트 확인
+==================================================
+
+설정 후 브라우저 새로고침(F5)하고:
+1. 공지사항 로드 에러가 사라졌는지 확인
+2. 관리자 계정으로 공지사항 작성 가능한지 확인

@@ -1,0 +1,31 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // 사용자 정보 - 모든 인증된 사용자가 읽을 수 있음 (관리자 페이지용)
+    match /users/{userId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.auth.uid == userId;
+      allow update, delete: if request.auth != null && request.auth.uid == userId;
+    }
+
+    // 시험 결과 - 모든 인증된 사용자가 읽을 수 있음 (관리자 페이지용)
+    match /exam_results/{resultId} {
+      allow read: if request.auth != null;
+      allow create: if request.auth != null && request.resource.data.userId == request.auth.uid;
+      allow update: if request.auth != null && (
+        resource.data.userId == request.auth.uid ||
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ["superAdmin", "admin"]
+      );
+      allow delete: if request.auth != null &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == "superAdmin";
+    }
+
+    // 공지사항 - 인증된 사용자 읽기 가능, 관리자만 쓰기 가능
+    match /notifications/{notifId} {
+      allow read: if request.auth != null;
+      allow create, update, delete: if request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role in ["superAdmin", "admin"];
+    }
+  }
+}

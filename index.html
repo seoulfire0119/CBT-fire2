@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>직장훈련 CBT 평가 시스템</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container">
+    <h1>직장훈련 CBT 평가 시스템</h1>
+    <div class="controls">
+      <label>직무 선택: 
+        <select id="jobSelect">
+          <option value="">직무를 선택하세요</option>
+          <option value="commander">지휘대</option>
+          <option value="firefighter">진압대원</option>
+          <option value="rescuer">구조대원</option>
+          <option value="paramedic">구급대원</option>
+        </select>
+      </label>
+      <div class="time-display">시험 시간: 20분 (고정)</div>
+      <button id="startBtn" disabled>시험 시작</button>
+      <button id="hintBtn" class="hint-toggle hidden">힌트 보기: OFF</button>
+      <span id="timer" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <main class="container">
+    <div id="examScreen" class="hidden">
+      <div class="exam-layout">
+        <aside class="sidebar">
+          <h2>문항 목록</h2>
+          <div id="questionList" class="question-list"></div>
+          <button id="submitBtn" class="submit">제출하기</button>
+        </aside>
+        <section class="content">
+          <div id="questionArea"></div>
+          <div class="nav">
+            <button id="prevBtn">이전</button>
+            <button id="nextBtn">다음</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="resultScreen" class="hidden">
+      <h2>결과</h2>
+      <p id="scoreLine"></p>
+      <div class="result-controls">
+        <button id="resultReviewModeBtn" class="review-mode">🔍 정답/오답 표시</button>
+      </div>
+      <div id="reviewArea"></div>
+      <button id="restartBtn">다시 풀기</button>
+    </div>
+  </main>
+
+  <footer class="container">
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>

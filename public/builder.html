@@ -1,0 +1,42 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>문항 생성기 (오프라인)</title>
+  <link rel="stylesheet" href="styles.css" />
+  <style>
+    .row{background:#fff;border:1px solid #eee;border-radius:12px;padding:1rem;margin:.8rem 0}
+    .row h3{margin:.2rem 0 .6rem}
+    .flex{display:flex;gap:.6rem;flex-wrap:wrap}
+    textarea{width:100%;min-height:80px}
+    input[type="text"]{width:100%}
+    .choices .choice-line{display:flex;gap:.5rem;align-items:center;margin:.3rem 0}
+    .choices input[type="text"]{flex:1}
+    .small{font-size:.9rem;color:#666}
+    .bar{display:flex;gap:.6rem;align-items:center;flex-wrap:wrap;margin:.4rem 0}
+    .bar button{padding:.4rem .8rem;border:1px solid #ddd;border-radius:10px;background:#fafafa;cursor:pointer}
+    .notice{background:#fff5e6;border:1px solid #ffd9a3;padding:.6rem;border-radius:10px;margin:.6rem 0}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>문항 생성기 (오프라인)</h1>
+    <div class="notice">
+      PDF에서 문항을 복사해 붙여넣고, 정답 번호(①→1)를 지정한 뒤 <b>JSON 다운로드</b>를 누르세요.<br>
+      만들어진 파일을 <code>data/파트이름.json</code> 으로 저장하고, <code>parts.json</code>에 등록하면 됩니다.
+    </div>
+
+    <div class="bar">
+      <label>파일명(저장될 이름): <input id="fileName" type="text" placeholder="예: fire-construction.json"></label>
+      <button id="addQ">문항 추가</button>
+      <button id="download">JSON 다운로드</button>
+      <span class="small">※ 정답 번호는 1부터(①=1) 입니다.</span>
+    </div>
+
+    <div id="editor"></div>
+  </div>
+
+  <script src="builder.js"></script>
+</body>
+</html>

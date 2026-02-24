@@ -1,0 +1,112 @@
+*{box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,'Apple SD Gothic Neo','Noto Sans KR',sans-serif;line-height:1.5;margin:0;background:#f7f7fb;color:#111}
+h1,h2{margin:0.2rem 0 0.6rem}
+.container{max-width:1100px;margin:0 auto;padding:1rem}
+header{background:#fff;box-shadow:0 1px 4px rgba(0,0,0,.06);position:sticky;top:0;z-index:1}
+.controls{display:flex;gap:.8rem;align-items:center;flex-wrap:wrap}
+.time-display{padding:0.4rem 0.6rem;background:#f0f8ff;border:1px solid #5b8def;border-radius:6px;font-size:0.9rem;color:#2c5aa0;font-weight:600}
+.controls label{display:flex;align-items:center;gap:0.5rem;font-size:0.9rem}
+.controls select,.controls input{padding:0.4rem 0.6rem;border:1px solid #ddd;border-radius:6px;font-size:0.9rem}
+.controls button{padding:0.6rem 1.2rem;border:none;border-radius:8px;background:#4CAF50;color:white;font-weight:600;cursor:pointer;font-size:0.9rem}
+.controls button:disabled{background:#ccc;cursor:not-allowed}
+.reset-btn{background:#ff5722 !important;color:white}
+.reset-btn:hover{background:#d84315 !important}
+#timer{font-weight:700;color:#ff6b35}
+.exam-layout{display:grid;grid-template-columns:260px 1fr;gap:1rem}
+.sidebar{background:#fff;border-radius:14px;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+.content{background:#fff;border-radius:14px;padding:1rem;box-shadow:0 2px 8px rgba(0,0,0,.06)}
+
+/* 모바일 반응형 레이아웃 */
+@media (max-width: 768px) {
+  .container{padding:0.75rem}
+  
+  .controls{gap:0.6rem;justify-content:flex-start;flex-direction:column;align-items:stretch}
+  .controls > *{width:100%}
+  .controls label{flex-direction:row;align-items:center;gap:0.5rem;justify-content:space-between}
+  .controls select,.controls input{flex:1;min-width:0;max-width:none}
+  .controls button{padding:0.8rem;font-size:1rem;margin:0.2rem 0}
+  
+  h1{font-size:1.4rem;text-align:center}
+  
+  .exam-layout{grid-template-columns:1fr;gap:0.75rem}
+  .sidebar{order:2;margin-bottom:5rem}
+  .content{order:1}
+  
+  .question-list{grid-template-columns:repeat(5,1fr);gap:0.4rem}
+  .qbtn{padding:0.8rem 0.4rem;font-size:0.85rem;border-radius:8px;min-height:44px}
+  
+  .nav{position:fixed;bottom:0;left:0;right:0;background:#fff;padding:1rem;box-shadow:0 -2px 8px rgba(0,0,0,.1);justify-content:center;gap:1rem;z-index:10}
+  .nav button{flex:1;max-width:120px;padding:1rem;font-size:1rem;border-radius:10px;min-height:44px}
+}
+.question-list{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem}
+.qbtn{padding:.5rem;border:1px solid #ddd;border-radius:10px;background:#fafafa;cursor:pointer}
+.qbtn.active{border-color:#5b8def;background:#eef4ff}
+.qbtn.answered{background:#eafbea;border-color:#7cd48a}
+.qbtn.review-wrong{background:#ffecec;border-color:#ff9aa2}
+
+/* 리뷰 모드 스타일 */
+.choice.correct-answer{background:#e8f5e8;border-color:#4caf50;border-width:2px}
+.choice.wrong-answer{background:#ffe6e6;border-color:#f44336;border-width:2px}
+.explanation-box{margin-top:1rem;padding:1rem;background:#f9f9f9;border-radius:10px;border-left:4px solid #2196f3}
+.result-correct{color:#4caf50;font-weight:bold;margin-bottom:0.5rem}
+.result-wrong{color:#f44336;font-weight:bold;margin-bottom:0.5rem}
+.result-buttons{display:flex;gap:1rem;margin-top:1rem;justify-content:center}
+.result-buttons button{padding:0.6rem 1.2rem;border:none;border-radius:8px;font-weight:600;cursor:pointer;font-size:0.9rem}
+.review-btn{background:#2196f3;color:white}
+.review-btn:hover{background:#1976d2}
+
+/* 힌트 버튼 스타일 */
+.hint-toggle{padding:0.6rem 1rem;border:none;border-radius:8px;background:#ff9800;color:white;font-weight:600;cursor:pointer;font-size:0.9rem;margin-bottom:1rem;width:100%}
+.hint-toggle:hover{background:#f57c00}
+.hint-toggle.active{background:#4caf50}
+.hint-toggle.active:hover{background:#388e3c}
+
+/* 리뷰 모드 버튼 스타일 */
+.review-mode{padding:0.6rem 1rem;border:none;border-radius:8px;background:#9c27b0;color:white;font-weight:600;cursor:pointer;font-size:0.9rem;margin-bottom:1rem;width:100%}
+.review-mode:hover{background:#7b1fa2}
+.review-mode.active{background:#e91e63;color:white}
+.review-mode.active:hover{background:#c2185b}
+
+.result-controls{margin-bottom:1rem;text-align:center}
+.nav{margin-top:1rem;display:flex;justify-content:space-between}
+.choice{display:flex;gap:.6rem;align-items:flex-start;margin:.4rem 0;padding:.4rem .6rem;border:1px solid #eee;border-radius:10px;background:#fcfcfe;cursor:pointer;transition:all 0.2s ease}
+.choice:hover{background:#f0f8ff;border-color:#5b8def}
+.choice input{margin-top:.25rem}
+
+/* 모바일에서 선택지 터치 최적화 */
+@media (max-width: 768px) {
+  .choice{padding:1rem;margin:.8rem 0;font-size:1rem;border-radius:12px;min-height:44px}
+  .choice input{transform:scale(1.3);margin-top:0.1rem}
+  
+  h2{font-size:1.2rem;margin-bottom:1rem}
+  .meta{font-size:0.85rem;margin-bottom:1rem;color:#777}
+  
+  .submit{font-size:1.1rem;padding:1.2rem;min-height:48px;border-radius:12px}
+  .hint{font-size:0.85rem}
+  
+  /* 문제 텍스트 가독성 향상 */
+  #questionArea h3{font-size:1.1rem;line-height:1.5;margin-bottom:1rem}
+  #questionArea p{font-size:1rem;line-height:1.6;margin-bottom:1rem}
+}
+.submit{margin-top:1rem;width:100%;padding:.75rem;border:none;border-radius:12px;background:#111;color:#fff;font-weight:700;cursor:pointer}
+.hidden{display:none}
+.hint{color:#666;font-size:.9rem;margin-top:.8rem}
+.meta{color:#666;font-size:.9rem;margin:.4rem 0}
+.correct{color:#0a7a26;font-weight:700}
+.incorrect{color:#b00020;font-weight:700}
+.explain{background:#fbfbff;border:1px solid #eee;border-radius:10px;padding:.6rem;margin-top:.4rem}
+.review-card{border:1px solid #eee;border-radius:12px;padding:1rem;margin:.8rem 0;background:#fff}
+.review-card.correct{border-color:#c4f1c8;background:#f4fff5}
+.review-card.incorrect{border-color:#ffd1d6;background:#fff6f7}
+
+/* 모바일에서 결과 화면 최적화 */
+@media (max-width: 768px) {
+  .review-card{padding:1.2rem;margin:1rem 0;border-radius:16px}
+  .review-card h3{font-size:1.1rem;margin-bottom:0.8rem}
+  .review-card p{margin:0.6rem 0;line-height:1.6}
+  .explain{padding:1rem;border-radius:12px;font-size:0.9rem;line-height:1.6}
+  .explain .meta{margin-top:0.8rem;padding-top:0.8rem;border-top:1px solid #eee}
+  
+  #restartBtn{width:100%;padding:1rem 2rem;font-size:1.1rem;border-radius:12px;margin-top:1rem}
+  #scoreLine{font-size:1.3rem;font-weight:700;text-align:center;padding:1rem;background:#f0f8ff;border-radius:12px;margin-bottom:1rem}
+}

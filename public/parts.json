@@ -1,0 +1,10 @@
+{
+  "parts": [
+    {"id":"ems","name":"01. 구급","file":"data/ems.json"},
+    {"id":"rescue","name":"02. 구조","file":"data/rescue.json"},
+    {"id":"facility","name":"03. 소방시설","file":"data/facility.json"},
+    {"id":"safety","name":"04. 안전관리","file":"data/safety.json"},
+    {"id":"equipment","name":"05. 장비","file":"data/equipment.json"},
+    {"id":"fire","name":"06. 화재","file":"data/fire.json"}
+  ]
+}

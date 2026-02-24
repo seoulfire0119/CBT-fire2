@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>직장훈련 CBT 평가 시스템</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="container">
+    <div class="header-top">
+      <h1>직장훈련 CBT 평가 시스템</h1>
+      <div id="userStatus">
+        <span id="currentUser"></span>
+        <a href="admin.html" id="adminLink" class="admin-link" style="display: none;">관리자 페이지</a>
+        <button id="logoutBtn" class="logout-btn" style="display: none;">로그아웃</button>
+      </div>
+    </div>
+    <div class="controls">
+      <label>직무 선택:
+        <select id="jobSelect">
+          <option value="">직무를 선택하세요</option>
+          <option value="commander">지휘대</option>
+          <option value="firefighter">진압대원</option>
+          <option value="rescuer">구조대원</option>
+          <option value="paramedic_qualified">구급대원(자격자)</option>
+          <option value="paramedic_trained">구급대원(교육이수자)</option>
+          <option value="mobile">기동대원</option>
+        </select>
+      </label>
+      <label>시험 시간:
+        <span class="time-display">20분 (고정)</span>
+      </label>
+      <div id="examCountDisplay" style="display: none; font-size: 14px; color: #555; padding: 4px 12px; background: #f0f0f0; border-radius: 4px;">오늘 응시: <span id="examCountText">확인 중...</span></div>
+      <button id="startBtn" disabled>시험 시작</button>
+      <span id="timer" aria-live="polite"></span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- 공지사항 섹션 - 직무 선택 바로 아래 -->
+    <div id="notificationSection" style="display: none; margin-bottom: 30px; margin-top: 20px;">
+      <div style="background: linear-gradient(135deg, #fff9e6 0%, #fff3cd 100%); border: 2px solid #ffc107; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(255, 193, 7, 0.3);">
+        <h3 style="margin: 0 0 15px 0; color: #d32f2f; font-size: 18px; font-weight: bold; display: flex; align-items: center; gap: 8px; cursor: pointer; user-select: none;" id="notificationToggle">
+          <span style="font-size: 24px;">📢</span>
+          <span>공지사항</span>
+          <span id="notificationArrow" style="margin-left: auto; font-size: 20px; transition: transform 0.3s ease;">▼</span>
+        </h3>
+        <div id="notificationList" style="overflow: hidden; transition: max-height 0.3s ease, opacity 0.3s ease;"></div>
+      </div>
+    </div>
+    <div id="examScreen" class="hidden">
+      <div class="exam-layout">
+        <aside class="sidebar">
+          <h2>문항 목록</h2>
+          <div id="questionList" class="question-list"></div>
+          <button id="submitBtn" class="submit">제출하기</button>
+        </aside>
+        <section class="content">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; padding-bottom: 10px; border-bottom: 2px solid #f0f0f0;">
+            <div style="font-weight: 600; color: #666; font-size: 14px;">글자 크기</div>
+            <div id="fontSizeControls" style="display: flex; gap: 8px;">
+              <button class="font-size-btn" data-size="100" style="padding: 6px 12px; border: 2px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s;">100%</button>
+              <button class="font-size-btn" data-size="150" style="padding: 6px 12px; border: 2px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s;">150%</button>
+              <button class="font-size-btn" data-size="200" style="padding: 6px 12px; border: 2px solid #ddd; border-radius: 6px; background: #fff; cursor: pointer; font-weight: 600; font-size: 13px; transition: all 0.2s;">200%</button>
+            </div>
+          </div>
+          <div id="questionArea"></div>
+          <div class="nav">
+            <button id="prevBtn">이전</button>
+            <button id="nextBtn">다음</button>
+          </div>
+        </section>
+      </div>
+    </div>
+
+    <div id="resultScreen" class="hidden">
+      <div style="background: #f0f8ff; border-left: 4px solid #2196f3; padding: 15px; margin-bottom: 20px; border-radius: 4px;">
+        <h2 style="margin: 0 0 10px 0; color: #2196f3;">✅ 시험 완료</h2>
+        <p id="scoreLine" style="font-size: 18px; font-weight: bold; margin: 10px 0;"></p>
+        <p style="color: #666; font-size: 14px; margin: 10px 0;">시험 결과가 데이터베이스에 저장되었습니다.</p>
+        <p style="color: #d32f2f; font-size: 14px; font-weight: bold; margin: 10px 0;">※ 이 결과는 한 번만 제출됩니다. 페이지를 새로고침하면 처음 화면으로 돌아갑니다.</p>
+      </div>
+      <h3 style="margin-top: 30px; padding-bottom: 10px; border-bottom: 2px solid #ddd;">상세 결과</h3>
+      <div id="reviewArea"></div>
+    </div>
+
+    <!-- 결과 모달 -->
+    <div id="resultModal" class="modal-overlay hidden">
+      <div class="modal-content">
+        <h2 class="modal-title">🎉 시험 완료</h2>
+        <div class="modal-body">
+          <div class="result-info">
+            <div class="result-row">
+              <span class="result-label">수험자</span>
+              <span id="modalUserName" class="result-value"></span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">직무종목</span>
+              <span id="modalJobName" class="result-value"></span>
+            </div>
+            <div class="result-row score-row">
+              <span class="result-label">점수</span>
+              <span id="modalScore" class="result-value score"></span>
+            </div>
+          </div>
+          <div class="subject-detail">
+            <h3>과목별 상세내역</h3>
+            <table class="subject-table">
+              <thead>
+                <tr>
+                  <th>과목</th>
+                  <th>출제</th>
+                  <th>정답</th>
+                  <th>상세</th>
+                </tr>
+              </thead>
+              <tbody id="modalSubjectDetail"></tbody>
+            </table>
+          </div>
+        </div>
+        <button id="modalCloseBtn" class="modal-close-btn">확인</button>
+      </div>
+    </div>
+
+    <!-- 과목별 상세보기 모달 -->
+    <div id="subjectDetailModal" class="modal-overlay hidden">
+      <div class="modal-content subject-detail-modal">
+        <div class="subject-detail-header">
+          <h2 id="subjectDetailTitle">과목 상세보기</h2>
+          <button id="subjectDetailCloseBtn" class="modal-close-x">&times;</button>
+        </div>
+        <div class="subject-detail-body">
+          <div class="subject-summary" id="subjectSummary"></div>
+          <div class="question-detail-list" id="questionDetailList"></div>
+        </div>
+        <button id="subjectDetailBackBtn" class="modal-back-btn">돌아가기</button>
+      </div>
+    </div>
+  </main>
+
+  <footer class="container">
+  </footer>
+
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
