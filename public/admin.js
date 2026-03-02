@@ -856,7 +856,7 @@ async function loadNotifications() {
         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 8px;">
           <div style="flex: 1;">
             <div style="font-weight: bold; color: #333; margin-bottom: 4px;">${data.title}</div>
-            <div style="color: #666; font-size: 14px; margin-bottom: 4px;">${data.content}</div>
+            <div style="color: #666; font-size: 14px; margin-bottom: 4px;">${data.content.replace(/\n/g, '<br>')}</div>
             <div style="font-size: 12px; color: #999;">
               ${data.createdAt ? new Date(data.createdAt.toDate()).toLocaleString('ko-KR') : ''}
               <span style="margin-left: 10px; padding: 2px 8px; background: ${data.active ? '#4caf50' : '#999'}; color: white; border-radius: 3px; font-size: 11px;">${data.active ? '활성' : '비활성'}</span>

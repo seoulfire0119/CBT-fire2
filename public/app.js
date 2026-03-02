@@ -791,7 +791,7 @@ function renderNotificationData(notifications) {
         <div style="font-weight: bold; color: #d32f2f; font-size: 16px;">${data.title}</div>
         <div style="font-size: 12px; color: #999; white-space: nowrap; margin-left: 10px;">${data.dateStr}</div>
       </div>
-      <div style="color: #333; font-size: 14px; line-height: 1.6;">${data.content}</div>
+      <div style="color: #333; font-size: 14px; line-height: 1.6;">${data.content.replace(/\n/g, '<br>')}</div>
     `;
     dom.notificationList.appendChild(notifDiv);
   });
