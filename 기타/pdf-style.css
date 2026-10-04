@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;700&display=swap');
+
+body {
+  font-family: 'Noto Sans KR', 'Malgun Gothic', '맑은 고딕', sans-serif;
+  font-size: 11pt;
+  line-height: 1.8;
+  color: #1a1a1a;
+  max-width: 100%;
+  padding: 0 10px;
+}
+
+h1 {
+  font-size: 18pt;
+  font-weight: 700;
+  text-align: center;
+  border-bottom: 2px solid #c0392b;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+  color: #c0392b;
+}
+
+h2 {
+  font-size: 13pt;
+  font-weight: 700;
+  border-left: 4px solid #c0392b;
+  padding-left: 10px;
+  margin-top: 24px;
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+h3 {
+  font-size: 11pt;
+  font-weight: 700;
+  color: #34495e;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 10pt;
+}
+
+th {
+  background-color: #c0392b;
+  color: white;
+  padding: 7px 10px;
+  text-align: left;
+  font-weight: 700;
+}
+
+td {
+  padding: 6px 10px;
+  border: 1px solid #ddd;
+}
+
+tr:nth-child(even) td {
+  background-color: #f9f9f9;
+}
+
+blockquote {
+  border-left: 3px solid #e0e0e0;
+  margin: 8px 0;
+  padding: 4px 12px;
+  color: #555;
+  font-size: 10pt;
+}
+
+code {
+  background-color: #f4f4f4;
+  padding: 2px 5px;
+  border-radius: 3px;
+  font-family: 'Courier New', monospace;
+  font-size: 10pt;
+}
+
+pre {
+  background-color: #f4f4f4;
+  padding: 12px;
+  border-radius: 4px;
+  font-size: 9.5pt;
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+ul, ol {
+  padding-left: 20px;
+}
+
+li {
+  margin-bottom: 3px;
+}
+
+strong {
+  color: #c0392b;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid #ddd;
+  margin: 16px 0;
+}
+
+.page-break {
+  page-break-after: always;
+}
