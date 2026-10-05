@@ -1,10 +1,10 @@
 const firebaseConfig = {
-  apiKey: "AIzaSyA5E4jEzU1YVS-4kWjgI4Dk0Ani-POvvyY",
-  authDomain: "seoul-dc4d7.firebaseapp.com",
-  projectId: "seoul-dc4d7",
-  storageBucket: "seoul-dc4d7.firebasestorage.app",
-  messagingSenderId: "1078404132418",
-  appId: "1:1078404132418:web:e0632ee8164591093447db"
+  apiKey: "AIzaSyD_GRYKH0Sfw-DqIp0fw665S6DHSxTcxbE",
+  authDomain: "fire-cbt-sample.firebaseapp.com",
+  projectId: "fire-cbt-sample",
+  storageBucket: "fire-cbt-sample.firebasestorage.app",
+  messagingSenderId: "911770311332",
+  appId: "1:911770311332:web:ee86353929b726dfd56431"
 };
 
 // Firebase 초기화
